@@ -63,3 +63,119 @@ const galleryItems = [
     description: 'Lighthouse Coast Sea',
   },
 ];
+
+// ---------- gallary ---------------
+
+const galleryList = document.querySelector(".js-gallery");
+
+const createGalleryItem = ({ preview, original, description }) =>
+  `<li class="gallery__item">
+    <a class="gallery__link"
+      href="${original}">
+      <img class="gallery__image" src="${preview}" data-source="${original}" alt="${description}">
+    </a>
+  </li>`;
+const galleryMarkup = galleryItems.reduce((acc, item) =>
+  acc + createGalleryItem(item), "");
+galleryList.insertAdjacentHTML("afterbegin", galleryMarkup);
+
+const lightBoxModal = document.querySelector(".js-lightbox");
+
+const lightBoxImg = lightBoxModal.querySelector(".lightbox__image");
+
+// ------ Bubbling phase click on preview image --------
+
+galleryList.addEventListener("click", onOpenModal);
+
+function onOpenModal(event) {
+  event.preventDefault(); // отменяет обработку событий браузера по умолчанию 
+
+  const target = event.target;
+
+  if (target.nodeName !== "IMG") return;
+  lightBoxImg.src = target.dataset.source;
+  lightBoxImg.alt = target.alt;
+  // lightBoxImg.setAttribute('src', target.dataset.source);
+  // lightBoxImg.setAttribute('alt', target.alt);
+
+  window.addEventListener('keydown', onEscKeyPress);
+  lightBoxModal.addEventListener('click', onOverlayClick);
+  lightBoxModal.classList.add('is-open');
+};
+
+const closeModalBtn = lightBoxModal.querySelector('[data-action="close-lightbox"]');
+
+closeModalBtn.addEventListener('click', onCloseModal);
+
+function onCloseModal() {
+
+  lightBoxImg.src = '';
+  lightBoxImg.alt = '';
+  // lightBoxImg.setAttribute('src', '');
+  // lightBoxImg.setAttribute('alt', '');
+
+  window.removeEventListener('keydown', onEscKeyPress);
+  lightBoxModal.removeEventListener('click', onOverlayClick);
+  lightBoxModal.classList.remove('is-open');
+};
+
+function onEscKeyPress(event) {
+  const ESC_KEY_CODE = 'Escape';
+  if (event.code === ESC_KEY_CODE){
+    onCloseModal();
+  };
+};
+
+function onOverlayClick(event) {
+  const target = event.target;
+  if (target.nodeName !== "DIV") return;
+    onCloseModal();
+};
+
+// setActiveLink(target);
+
+// function setActiveLink(nextActiveLink) {
+//   const currentActiveLink = galleryList.querySelector(".gallery__item");
+//   console.log(currentActiveLink);
+  
+//   if (currentActiveLink) {
+//     currentActiveLink.classList.remove("is-open");
+//   }
+
+//   nextActiveLink.classList.add("is-open");
+// }
+
+// ------ modal windov -------
+
+// const refs = {
+  // openModalBtn: document.querySelector('[js-lightbox]'),
+  // closeModalBtn: document.querySelector('[data-action="close-lightbox"]'),
+  // backdrop: document.querySelector('.js-lightbox')
+// };
+
+// refs.openModalBtn.addEventListener('click', onOpenModal);
+// refs.backdrop.addEventListener('click', onBackdropClick);
+
+// function onOpenModal() {
+//   window.addEventListener('keydown', onEscKeyPress);
+  
+//   console.log(lightBoxModal.classList);
+
+//   lightBoxModal.classList.add('is-open');
+// };
+
+
+
+// function onBackdropClick(event) {
+
+//   console.log('Click on backdrop');
+
+//   console.log(event.currentTarget); // <div class = "backdrop js-backdrop">...</div></div> 
+//   console.log(event.target); // element on Click
+
+//   if (event.currentTarget === event.target) {
+//     onCloseModal();
+//   }
+// };
+  
+
