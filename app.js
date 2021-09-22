@@ -97,13 +97,13 @@ function lightBoxImgView(arrayImg, number) {
 function onOpenModal(event) {
   event.preventDefault();
   const target = event.target;
-  const nuberTarget = [...galleryList.childNodes].indexOf(target.parentNode.parentNode, 0);
-  countTarget = nuberTarget;
+  const numberTarget = [...galleryList.childNodes].indexOf(target.parentNode.parentNode, 0);
+  countTarget = numberTarget;
   if (target.nodeName !== "IMG") return;
   window.addEventListener('keydown', onKeyPress);
   lightBoxModal.addEventListener('click', onOverlayClick);
   lightBoxModal.classList.add('is-open');
-  lightBoxImgView(allImg, nuberTarget);
+  lightBoxImgView(allImg, numberTarget);
 };
 
 function onCloseModal() {
