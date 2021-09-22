@@ -81,7 +81,6 @@ galleryList.addEventListener("click", onOpenModal);
 const allImg = galleryList.querySelectorAll(".gallery__image");
 const lightBoxModal = document.querySelector(".js-lightbox");
 const closeModalBtn = lightBoxModal.querySelector('[data-action="close-lightbox"]');
-closeModalBtn.addEventListener('click', onCloseModal);
 let countTarget = 0;
 
 function lightBoxImg(original, description) {
@@ -101,6 +100,7 @@ function onOpenModal(event) {
   countTarget = numberTarget;
   if (target.nodeName !== "IMG") return;
   window.addEventListener('keydown', onKeyPress);
+  closeModalBtn.addEventListener('click', onCloseModal);
   lightBoxModal.addEventListener('click', onOverlayClick);
   lightBoxModal.classList.add('is-open');
   lightBoxImgView(allImg, numberTarget);
@@ -110,16 +110,15 @@ function onCloseModal() {
   lightBoxImg("", "")
   window.removeEventListener('keydown', onKeyPress);
   lightBoxModal.removeEventListener('click', onOverlayClick);
+  closeModalBtn.removeEventListener('click', onCloseModal);
   lightBoxModal.classList.remove('is-open');
 };
 
 function onOverlayClick(event) {
   const target = event.target;
   if (target.classList.value === "lightbox__overlay") {
-onCloseModal();
-}
-  // if (target.nodeName !== "DIV") return;
-  //   onCloseModal();
+    onCloseModal();
+  }
 };
 
 function onKeyPress(event) {
@@ -129,27 +128,25 @@ function onKeyPress(event) {
   const PAGEDOWN_KEY_CODE = 'PageDown';
   const PAGEUP_KEY_CODE = 'PageUp';
   
-  if (event.code === ESC_KEY_CODE){
+  if (event.code === ESC_KEY_CODE) {
     onCloseModal();
-  };
-  if (event.code === ARROWLEFT_KEY_CODE) {
-    if (countTarget <= 0) return;
-    countTarget -= 1;
-    lightBoxImgView(allImg, countTarget)
-  };
-  if (event.code === ARROWRIGHT_KEY_CODE) {
-    if (countTarget >= allImg.length - 1) return;
-    countTarget += 1;
-    lightBoxImgView(allImg, countTarget)
-  };
+  } else {
+    if (event.code === ARROWLEFT_KEY_CODE) {
+      if (countTarget <= 0) return;
+      countTarget -= 1;
+    };
+    if (event.code === ARROWRIGHT_KEY_CODE) {
+      if (countTarget >= allImg.length - 1) return;
+      countTarget += 1;
+    };
     if (event.code === PAGEDOWN_KEY_CODE) {
-    if (countTarget <= 0) countTarget = allImg.length ;
-    countTarget -= 1;
-    lightBoxImgView(allImg, countTarget)
-  };
-  if (event.code === PAGEUP_KEY_CODE) {
-    if (countTarget >= allImg.length - 1) countTarget = -1;
-    countTarget += 1;
-    lightBoxImgView(allImg, countTarget)
+      if (countTarget <= 0) countTarget = allImg.length;
+      countTarget -= 1;
+    };
+    if (event.code === PAGEUP_KEY_CODE) {
+      if (countTarget >= allImg.length - 1) countTarget = -1;
+      countTarget += 1;
+    };
+    lightBoxImgView(allImg, countTarget);
   };
 };
