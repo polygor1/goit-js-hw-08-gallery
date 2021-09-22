@@ -115,14 +115,20 @@ function onCloseModal() {
 
 function onOverlayClick(event) {
   const target = event.target;
-  if (target.nodeName !== "DIV") return;
-    onCloseModal();
+  if (target.classList.value === "lightbox__overlay") {
+onCloseModal();
+}
+  // if (target.nodeName !== "DIV") return;
+  //   onCloseModal();
 };
 
 function onKeyPress(event) {
   const ESC_KEY_CODE = 'Escape';
   const ARROWLEFT_KEY_CODE = 'ArrowLeft';
   const ARROWRIGHT_KEY_CODE = 'ArrowRight';
+  const PAGEDOWN_KEY_CODE = 'PageDown';
+  const PAGEUP_KEY_CODE = 'PageUp';
+  
   if (event.code === ESC_KEY_CODE){
     onCloseModal();
   };
@@ -133,6 +139,16 @@ function onKeyPress(event) {
   };
   if (event.code === ARROWRIGHT_KEY_CODE) {
     if (countTarget >= allImg.length - 1) return;
+    countTarget += 1;
+    lightBoxImgView(allImg, countTarget)
+  };
+    if (event.code === PAGEDOWN_KEY_CODE) {
+    if (countTarget <= 0) countTarget = allImg.length ;
+    countTarget -= 1;
+    lightBoxImgView(allImg, countTarget)
+  };
+  if (event.code === PAGEUP_KEY_CODE) {
+    if (countTarget >= allImg.length - 1) countTarget = -1;
     countTarget += 1;
     lightBoxImgView(allImg, countTarget)
   };
