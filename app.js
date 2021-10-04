@@ -122,31 +122,56 @@ function onOverlayClick(event) {
 };
 
 function onKeyPress(event) {
-  const ESC_KEY_CODE = 'Escape';
-  const ARROWLEFT_KEY_CODE = 'ArrowLeft';
-  const ARROWRIGHT_KEY_CODE = 'ArrowRight';
-  const PAGEDOWN_KEY_CODE = 'PageDown';
-  const PAGEUP_KEY_CODE = 'PageUp';
-  
-  if (event.code === ESC_KEY_CODE) {
-    onCloseModal();
-  } else {
-    if (event.code === ARROWLEFT_KEY_CODE) {
-      if (countTarget <= 0) return;
-      countTarget -= 1;
+  switch (event.code) {
+    case 'Escape': {
+      onCloseModal();
+      break;
     };
-    if (event.code === ARROWRIGHT_KEY_CODE) {
-      if (countTarget >= allImg.length - 1) return;
-      countTarget += 1;
+    case 'ArrowLeft': {
+      if (countTarget > 0) countTarget -= 1;
+      break;
     };
-    if (event.code === PAGEDOWN_KEY_CODE) {
+    case 'ArrowRight': {
+      if (countTarget < allImg.length - 1) countTarget += 1;
+      break;
+    };
+    case 'ArrowDown': {
       if (countTarget <= 0) countTarget = allImg.length;
       countTarget -= 1;
+      break;
     };
-    if (event.code === PAGEUP_KEY_CODE) {
+    case 'ArrowUp': {
       if (countTarget >= allImg.length - 1) countTarget = -1;
       countTarget += 1;
+      break;
     };
-    lightBoxImgView(allImg, countTarget);
   };
+  lightBoxImgView(allImg, countTarget);
 };
+
+// const ESC_KEY_CODE = 'Escape';
+// const ARROWLEFT_KEY_CODE = 'ArrowLeft';
+// const ARROWRIGHT_KEY_CODE = 'ArrowRight';
+// const ARROWDOWN_KEY_CODE = 'ArrowDown';
+// const ARROWUP_KEY_CODE = 'ArrowUp';
+  
+//   if (event.code === ESC_KEY_CODE) {
+//     onCloseModal();
+//   } else {
+//     if (event.code === ARROWLEFT_KEY_CODE) {
+//       if (countTarget > 0) countTarget -= 1;
+//     };
+//     if (event.code === ARROWRIGHT_KEY_CODE) {
+//       if (countTarget < allImg.length - 1) countTarget += 1;
+//     };
+//     if (event.code === ARROWDOWN_KEY_CODE) {
+//       if (countTarget <= 0) countTarget = allImg.length;
+//       countTarget -= 1;
+//     };
+//     if (event.code === ARROWUP_KEY_CODE) {
+//       if (countTarget >= allImg.length - 1) countTarget = -1;
+//       countTarget += 1;
+//     };
+//     lightBoxImgView(allImg, countTarget);
+//   };
+// };
